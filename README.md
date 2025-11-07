@@ -1,2 +1,97 @@
 # Yix_Motorhand
 This is a repository for placing various ESP32 series chip motor solutions.
+# DITTO FOC无刷电机控制项目
+
+## 功能简介
+
+本项目是一个基于ESP32的无刷电机FOC（Field Oriented Control）控制系统实现。主要功能包括：
+
+- 使用AS5600磁编码器进行位置检测
+- 实现电流环、速度环和位置环的闭环控制
+- 支持单电阻采样的电流检测
+- PWM管理和FOC算法实现
+- 功率环和开环控制支持
+
+### 核心组件
+
+- `AS5600`: 磁编码器驱动
+- `CurrentLoop`: 电流环控制
+- `FOC`: 矢量控制算法实现
+- `SpeedLoop`: 速度环控制
+- `PowerLoop`: 功率控制
+- `SingleShuntSampler`: 单电阻采样
+- `PWMManager`: PWM信号管理
+
+## 编译流程
+
+### 环境要求
+
+1. 安装ESP-IDF
+2. 配置ESP-IDF环境变量
+3. 安装CMake构建工具
+
+### 编译步骤
+
+1. 克隆项目到本地：
+```bash
+git clone https://github.com/wireless-tag-com/Yix_Motorhand/tree/main/%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6
+cd test1
+```
+
+2. 配置项目：
+```bash
+idf.py menuconfig
+```
+在配置菜单中可以根据需要调整相关参数。
+
+3. 编译项目：
+```bash
+idf.py build
+```
+
+## 烧录及运行
+
+1. 连接ESP32开发板到电脑
+
+2. 烧录固件：
+```bash
+idf.py -p [COM端口] flash
+```
+注：将[COM端口]替换为实际的串口号，例如COM3
+
+3. 监视输出：
+```bash
+idf.py -p [COM端口] monitor
+```
+
+### 预期结果
+
+烧录成功后，系统将：
+1. 初始化AS5600磁编码器
+2. 配置PWM输出
+3. 启动FOC控制算法
+4. 可通过串口监视电机运行状态和相关参数
+
+## 故障排除
+
+如果遇到以下问题：
+
+1. 编译错误
+   - 检查ESP-IDF环境变量是否正确配置
+   - 确保所有依赖组件都已安装
+
+2. 烧录失败
+   - 检查串口连接
+   - 确认开发板是否处于下载模式
+   - 验证COM端口号是否正确
+
+3. 运行异常
+   - 检查电机接线是否正确
+   - 验证编码器安装位置
+   - 观察串口输出的调试信息
+
+## 注意事项
+
+- 首次运行时建议使用较低的PWM占空比进行测试
+- 确保电机和编码器正确连接
+- 运行前检查电源电压是否在安全范围内
